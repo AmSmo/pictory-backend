@@ -1,0 +1,2 @@
+class LocationPhotosController < ApplicationController
+end
