@@ -25,7 +25,15 @@ class Photo < ApplicationRecord
         if photo&.photograph&.attached?
             return "http://localhost:3000/#{rails_blob_url(photo.photograph, only_path: true)}"
         else
-            return photo.url
+            return false
+        end
+    end
+
+    def image_url
+        if photoproof
+            return photoproof
+        else
+            return self.url
         end
     end
 

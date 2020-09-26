@@ -1,4 +1,6 @@
 class PhotosController < ApplicationController
+    after_action :location_creation, only: [:create] 
+
     def index
         photos = Photo.all
         render json: photos
@@ -15,7 +17,7 @@ class PhotosController < ApplicationController
         photo = Photo.create(create_params)
         if photo.valid?
             metadata = photo.photograph.blob.metadata
-            debugger
+            
             if metadata["longitude"] && metadata["latitude"]
                info = {user: "bullocks"}
                 render json: info
@@ -45,5 +47,9 @@ class PhotosController < ApplicationController
 
   def error_json(user)
     { errors: user.errors.full_messages }
+  end
+
+  def location_creation
+    debugger
   end
 end
