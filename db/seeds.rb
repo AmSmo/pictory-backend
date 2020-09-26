@@ -38,9 +38,9 @@ geo.each do |property|
     url = property[:properties][:data][:imageUrl]
     year = property[:properties][:validUntil]
     if year
-        date = Date.Parse"1-1-#{year}"
+        date = Date.parse"1-1-#{year}"
     else
-        date= Date.Parse("1-1-1930")
+        date= Date.parse("1-1-1930")
     end
     caption = "NYPL Collection of NY.  #{name}"
     longitude = property[:geometry][:coordinates][0]
