@@ -12,12 +12,12 @@ class PhotosController < ApplicationController
 
     def create
         
-        photo = Photo.new(create_params)
-        if photo.save
+        photo = Photo.create(create_params)
+        if photo.valid?
             metadata = photo.photograph.blob.metadata
             debugger
             if metadata["longitude"] && metadata["latitude"]
-               
+               info = {user: "bullocks"}
                 render json: info
             else
                 render json: photo, status: :created
