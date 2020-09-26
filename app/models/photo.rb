@@ -23,7 +23,7 @@ class Photo < ApplicationRecord
     def photoproof
         photo = Photo.find_by(id: self.id)
         if photo&.photograph&.attached?
-            return "http://localhost:3000/#{rails_blob_url(photo.photograph, only_path: true)}"
+            return "http://localhost:3000#{rails_blob_url(photo.photograph, only_path: true)}"
         else
             return false
         end
@@ -37,6 +37,19 @@ class Photo < ApplicationRecord
         end
     end
 
+    def longitude
+        if self&.photograph&.attached?
+            if self.photograph.blob.metadata["longitude"] != nil
+                return self.photograph.blob.metadata["longitude"].round(4)
+            end
+        end
+    end
 
-
+    def latitude
+        if self&.photograph&.attached?
+            if self.photograph.blob.metadata["longitude"] != nil
+                return self.photograph.blob.metadata["latitude"].round(4)
+            end
+        end
+    end
 end

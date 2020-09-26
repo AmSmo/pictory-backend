@@ -20,7 +20,7 @@ class PhotosController < ApplicationController
             
             if metadata["longitude"] && metadata["latitude"]
                info = {user: "bullocks"}
-                render json: info
+                render json: photo, status: :created
             else
                 render json: photo, status: :created
             end
@@ -50,6 +50,6 @@ class PhotosController < ApplicationController
   end
 
   def location_creation
-    debugger
+    
   end
 end
