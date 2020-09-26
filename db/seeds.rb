@@ -43,8 +43,8 @@ geo.each do |property|
         date= Date.parse("1-1-1930")
     end
     caption = "NYPL Collection of NY.  #{name}"
-    longitude = property[:geometry][:coordinates][0]
-    latitude = property[:geometry][:coordinates][1]
+    longitude = property[:geometry][:coordinates][0].round(4)
+    latitude = property[:geometry][:coordinates][1].round(4)
 
     add_to = Location.find_or_create_by(longitude: longitude, latitude: latitude, name: name)
     new_photo = Photo.create(name: name, date: date, caption: caption, url: url)

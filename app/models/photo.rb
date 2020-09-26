@@ -13,7 +13,7 @@
 class Photo < ApplicationRecord
     include Rails.application.routes.url_helpers
     has_one :location_photo, dependent: :destroy
-    has_one :locations, through: :location_photo
+    has_one :location, through: :location_photo
     has_many :comments, dependent: :destroy
     has_many :commenters, through: :comments, source: :user
     has_many :user_photos, dependent: :destroy
@@ -42,6 +42,8 @@ class Photo < ApplicationRecord
             if self.photograph.blob.metadata["longitude"] != nil
                 return self.photograph.blob.metadata["longitude"].round(4)
             end
+        else
+            self.location.longitude.round(4)
         end
     end
 
@@ -50,6 +52,8 @@ class Photo < ApplicationRecord
             if self.photograph.blob.metadata["longitude"] != nil
                 return self.photograph.blob.metadata["latitude"].round(4)
             end
+        else
+            self.location.longitude.round(4)
         end
     end
 end
