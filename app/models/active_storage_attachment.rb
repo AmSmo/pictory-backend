@@ -1,9 +1,8 @@
 class ActiveStorageAttachment < ApplicationRecord
-  belongs_to :blob
+  belongs_to :blob, foreign_key: :blob_id, class_name: "ActiveStorageBlob"
   belongs_to :photo, foreign_key: :record_id
 
-  def create
-    super()
+  def has_data
     if blob.longitude && blob.latitude
         location = Location.find__by(longitude: blob.longitude, latitude: blob.latitude)
         if location

@@ -19,8 +19,7 @@ module ActiveStorage
 
     def gps_from_exif(image)
       return unless image.type == 'JPEG'
-        PhotoLocation.create(latitude:  gps.fields[:gps_latitude].to_f,
-            longitude: gps.fields[:gps_longitude].to_f)
+
       if exif = EXIFR::JPEG.new(image.path).exif
         if gps = exif.fields[:gps]
           {

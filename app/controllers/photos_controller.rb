@@ -14,11 +14,19 @@ class PhotosController < ApplicationController
         
         photo = Photo.new(create_params)
         if photo.save
-            render json: {"woo": "hoo"}
+            metadata = photo.photograph.blob.metadata
+            debugger
+            if metadata["longitude"] && metadata["latitude"]
+               
+                render json: info
+            else
+                render json: photo, status: :created
+            end
+
         else
             render json: {"boo": "hoo"}
         end
-  end
+    end
 
   private
 
@@ -28,9 +36,9 @@ class PhotosController < ApplicationController
 
   def success_json(user)
     {
-      user: {
-        id: user.id,
-        username: user.username
+      photo: {
+        id: photo.id,
+        story: "lovely lady"
       }
     }
   end
