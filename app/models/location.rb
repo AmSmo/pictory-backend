@@ -15,5 +15,12 @@ class Location < ApplicationRecord
     has_many :photos, through: :location_photos
     has_many :users, through: :user_locations
 
-    
+    def self.search(longitude,latitude)
+        Location.where('latitude >= ? AND latitude <= ? AND longitude >= ? AND longitude <= ?', 
+            (latitude - 0.0015), 
+            (latitude + 0.0015),
+            (longitude - 0.0015), 
+            (longitude + 0.0015),
+        ).limit(12)
+    end
 end

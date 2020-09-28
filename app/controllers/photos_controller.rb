@@ -13,10 +13,18 @@ class PhotosController < ApplicationController
     end
 
     def update
-      byebug
+      
       photo = Photo.find_by(id: params[:id])
       photo.update(update_params)
-      render json: {long: params[:longitude], lat: params[:latitude]}
+      locations = Location.search(params[:longitude].to_f, params[:latitude].to_f)
+      
+      if locations.length > 0
+        response = { places: ActiveModelSerializers::SerializableResource.new(locations),
+            photo: ActiveModelSerializers::SerializableResource.new(photo)}
+        render json: response 
+      else
+        render json: {found: "none", photo: ActiveModelSerializers::SerializableResource.new(photo)}
+      end
 
     end
 
@@ -27,7 +35,7 @@ class PhotosController < ApplicationController
             metadata = photo.photograph.blob.metadata
             
             if metadata["longitude"] && metadata["latitude"]
-               info = {user: "bullocks"}
+               
                 render json: photo, status: :created
             else
                 render json: photo, status: :created
