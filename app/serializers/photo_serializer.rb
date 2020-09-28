@@ -11,5 +11,5 @@
 #  updated_at :datetime         not null
 #
 class PhotoSerializer < ActiveModel::Serializer
-  attributes :id, :name, :date, :caption, :image_url, :longitude, :latitude
+  attributes :id, :name, :date, :caption, :image_url, :longitude, :latitude, :edit_date, :date
 end

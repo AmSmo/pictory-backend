@@ -12,6 +12,14 @@ class PhotosController < ApplicationController
         render json: photo
     end
 
+    def update
+      byebug
+      photo = Photo.find_by(id: params[:id])
+      photo.update(update_params)
+      render json: {long: params[:longitude], lat: params[:latitude]}
+
+    end
+
     def create
         
         photo = Photo.create(create_params)
@@ -34,6 +42,10 @@ class PhotosController < ApplicationController
 
   def create_params
     params.permit(:user, :name, :caption, :url, :photograph)
+  end
+
+  def update_params
+    params.require(:photo).permit(:name, :date, :caption)
   end
 
   def success_json(user)

@@ -37,6 +37,16 @@ class Photo < ApplicationRecord
         end
     end
 
+    def edit_date
+        if self&.photograph&.attached?
+            if self.photograph.blob.metadata["datetime"] != nil
+                return Time.parse(self.photograph.blob.metadata["datetime"])
+            end
+        else
+            return "1-1-2000"
+        end
+    end
+
     def longitude
         if self&.photograph&.attached?
             if self.photograph.blob.metadata["longitude"] != nil
@@ -49,11 +59,11 @@ class Photo < ApplicationRecord
 
     def latitude
         if self&.photograph&.attached?
-            if self.photograph.blob.metadata["longitude"] != nil
+            if self.photograph.blob.metadata["latitude"] != nil
                 return self.photograph.blob.metadata["latitude"].round(4)
             end
         else
-            self.location.longitude.round(4)
+            self.location.latitude.round(4)
         end
     end
 end

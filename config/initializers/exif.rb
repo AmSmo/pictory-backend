@@ -19,16 +19,27 @@ module ActiveStorage
 
     def gps_from_exif(image)
       return unless image.type == 'JPEG'
+    
 
       if exif = EXIFR::JPEG.new(image.path).exif
         if gps = exif.fields[:gps]
-          if gps.fields[:gps_latitude].to_f != 0.0
-            {
-              latitude:  gps.fields[:gps_latitude].to_f,
-              longitude: gps.fields[:gps_longitude].to_f,
-              datetime: exif.fields[:date_time]
-            }
+          if exif.fields[:gps].fields[:gps_longitude_ref] == "W"
+            long = gps.fields[:gps_longitude].to_f * -1.0
+          else
+            long = gps.fields[:gps_longitude].to_f
           end
+
+          if exif.fields[:gps].fields[:gps_latitude_ref] == "S"
+            lat = gps.fields[:gps_latitude].to_f * -1.0
+          else
+            lat = gps.fields[:gps_latitude].to_f
+          end
+          {
+            latitude:  lat,
+            longitude: long,
+            datetime: exif.fields[:date_time]
+          }
+
         else
           {datetime: exif.fields[:date_time]}
         end
