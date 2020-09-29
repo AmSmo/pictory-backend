@@ -23,28 +23,25 @@ User.destroy_all
 # comment = Comment.create(user: matt, photo: photo, comment: "This is a comment")
 # locationphoto = LocationPhoto.new(photo: photo, location: jersey_city)
 
-geo = [{"type":"Feature","properties":{"id":"1507101-a","type":"st:Photo","name":"Manhattan: 59th Street (West) - 5th Avenue","data":{"uuid":"66760270-c54b-012f-f357-58d385a7bc34","imageId":"1507101","folder":"59th Street (West) & 5th Avenue, Manhattan, NY","url":"https://www.oldnyc.org/#1507101-a","imageUrl":"http://oldnyc-assets.nypl.org/600px/1507101-a.jpg","nyplUrl":"http://digitalcollections.nypl.org/items/66760270-c54b-012f-f357-58d385a7bc34"},"validSince":1908,"validUntil":1908},"geometry":{"type":"Point","coordinates":[-73.97302,40.764292]}},
-{"type":"Feature","properties":{"id":"1507280-a","type":"st:Photo","name":"Allen Street #21","data":{"uuid":"c82042c0-c5cd-012f-f37a-58d385a7bc34","imageId":"1507280","folder":"Allen Street #21, Manhattan, NY","url":"https://www.oldnyc.org/#1507280-a","imageUrl":"http://oldnyc-assets.nypl.org/600px/1507280-a.jpg","nyplUrl":"http://digitalcollections.nypl.org/items/c82042c0-c5cd-012f-f37a-58d385a7bc34"}},"geometry":{"type":"Point","coordinates":[-73.99264,40.715565]}},
-{"type":"Feature","properties":{"id":"1507284-a","type":"st:Photo","name":"Amsterdam Avenue #440","data":{"uuid":"c8fb6cd0-c5cd-012f-a35e-58d385a7bc34","imageId":"1507284","folder":"Amsterdam Avenue #440, Manhattan, NY","url":"https://www.oldnyc.org/#1507284-a","imageUrl":"http://oldnyc-assets.nypl.org/600px/1507284-a.jpg","nyplUrl":"http://digitalcollections.nypl.org/items/c8fb6cd0-c5cd-012f-a35e-58d385a7bc34"}},"geometry":{"type":"Point","coordinates":[-73.97748,40.784583]}},
-{"type":"Feature","properties":{"id":"1507286-a","type":"st:Photo","name":"Amsterdam Avenue #1430","data":{"uuid":"c946cd40-c5cd-012f-3520-58d385a7bc34","imageId":"1507286","folder":"Amsterdam Avenue #1430, Manhattan, NY","url":"https://www.oldnyc.org/#1507286-a","imageUrl":"http://oldnyc-assets.nypl.org/600px/1507286-a.jpg","nyplUrl":"http://digitalcollections.nypl.org/items/c946cd40-c5cd-012f-3520-58d385a7bc34"}},"geometry":{"type":"Point","coordinates":[-73.954841,40.817054]}},
-{"type":"Feature","properties":{"id":"1507288-a","type":"st:Photo","name":"Amsterdam Avenue #1435","data":{"uuid":"c9a82020-c5cd-012f-3577-58d385a7bc34","imageId":"1507288","folder":"Amsterdam Avenue #1435, Manhattan, NY","url":"https://www.oldnyc.org/#1507288-a","imageUrl":"http://oldnyc-assets.nypl.org/600px/1507288-a.jpg","nyplUrl":"http://digitalcollections.nypl.org/items/c9a82020-c5cd-012f-3577-58d385a7bc34"}},"geometry":{"type":"Point","coordinates":[-73.954095,40.816338]}},
-{"type":"Feature","properties":{"id":"1507290-a","type":"st:Photo","name":"Amsterdam Avenue #1485","data":{"uuid":"c9fc0380-c5cd-012f-e3f3-58d385a7bc34","imageId":"1507290","folder":"Amsterdam Avenue #1485, Manhattan, NY","url":"https://www.oldnyc.org/#1507290-a","imageUrl":"http://oldnyc-assets.nypl.org/600px/1507290-a.jpg","nyplUrl":"http://digitalcollections.nypl.org/items/c9fc0380-c5cd-012f-e3f3-58d385a7bc34"}},"geometry":{"type":"Point","coordinates":[-73.953084,40.817737]}}]
+stuff = File.read('./db/oldnyc.geojson')
 
+geo = JSON.parse(stuff)
+byebug
 nypl = User.create(username: "NYPL")
 geo.each do |property|
     
-    name = property[:properties][:name]
-    location = property[:properties][:data][:folder]
-    url = property[:properties][:data][:imageUrl]
-    year = property[:properties][:validUntil]
+    name = property["properties"]["name"]
+    location = property["properties"]["data"]["folder"]
+    url = property["properties"]["data"]["imageUrl"]
+    year = property["properties"]["validUntil"]
     if year
         date = Date.parse"1-1-#{year}"
     else
         date= Date.parse("1-1-1930")
     end
     caption = "NYPL Collection of NY.  #{name}"
-    longitude = property[:geometry][:coordinates][0].round(4)
-    latitude = property[:geometry][:coordinates][1].round(4)
+    longitude = property["geometry"]["coordinates"][0].round(4)
+    latitude = property["geometry"]["coordinates"][1].round(4)
 
     add_to = Location.find_or_create_by(longitude: longitude, latitude: latitude, name: name)
     new_photo = Photo.create(name: name, date: date, caption: caption, url: url)

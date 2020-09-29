@@ -8,19 +8,21 @@
 #  updated_at :datetime         not null
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :photos, :comments
+  attributes :id, :username
+  has_many :photos
+  has_many :comments
+  has_many :locations
+  # def photos
+  #   self.object.photos.map do |photo|
+  #     {id: photo.id,
+  #     name: photo.name}
+  #   end
+  # end
 
-  def photos
-    self.object.photos.map do |photo|
-      {id: photo.id,
-      name: photo.name}
-    end
-  end
-
-  def comments
-    self.object.comments.map do |comment|
-      {id: comment.id, 
-      comment: comment.comment}
-    end
-  end
+  # def comments
+  #   self.object.comments.map do |comment|
+  #     {id: comment.id, 
+  #     comment: comment.comment}
+  #   end
+  # end
 end

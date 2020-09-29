@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
     after_action :location_creation, only: [:create] 
 
     def index
-        photos = Photo.all
+        photos = Photo.last(30)
         render json: photos
     end
 
