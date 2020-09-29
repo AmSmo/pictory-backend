@@ -6,8 +6,12 @@ class LocationsController < ApplicationController
 
     def create
         newLocation = Location.create(location_params)
-        
-        byebug
+        LocationPhoto.create(photo_id: params[:photo_id].to_i, location: newLocation)
+        if newLocation.valid?
+            render json: newLocation
+        else
+            render json: {"boo": "hoo"}
+        end
     end
 
     private
