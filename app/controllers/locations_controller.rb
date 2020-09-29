@@ -1,7 +1,15 @@
 class LocationsController < ApplicationController
     def index
-        locations = Location.last(30)
-        render json: locations
+        locations = Location.page params[:page]
+        pageCount = Location.page.total_pages
+        if params[:page].blank?
+            page = 1
+            
+        else
+            page = params[:page]
+        end
+
+        render json: {places: ActiveModelSerializers::SerializableResource.new(locations), page_info: {current_page: params[:page], total_pages: page_count}
     end
 
     def create

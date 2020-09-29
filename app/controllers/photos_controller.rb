@@ -2,12 +2,11 @@ class PhotosController < ApplicationController
     after_action :location_creation, only: [:create] 
 
     def index
-        photos = Photo.last(30)
+        photos = Photo.page params[:page]
         render json: photos
     end
 
     def show
-
         photo = Photo.find_by(id: params[:id])
         render json: photo
     end
