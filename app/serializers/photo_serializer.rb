@@ -12,5 +12,6 @@
 #
 class PhotoSerializer < ActiveModel::Serializer
   attributes :id, :name, :date, :caption, :image_url, :longitude, :latitude, :edit_date, :date
-  
+  has_one :poster
+  has_many :comments
 end

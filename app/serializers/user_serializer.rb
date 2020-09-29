@@ -9,7 +9,7 @@
 #
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :username
-  has_many :photos
+  
   has_many :comments
   has_many :locations
   # def photos
