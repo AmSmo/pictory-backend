@@ -12,17 +12,19 @@ class PhotosController < ApplicationController
     end
 
     def update
-      
+
       photo = Photo.find_by(id: params[:id])
       photo.update(update_params)
       locations = Location.search(params[:longitude].to_f, params[:latitude].to_f)
-      
+      UserPhoto.create(user_id: params[:user_id], photo: photo)
       if locations.length > 0
         response = { places: ActiveModelSerializers::SerializableResource.new(locations),
-            photo: ActiveModelSerializers::SerializableResource.new(photo)}
+            photo: ActiveModelSerializers::SerializableResource.new(photo), location: {longitude: params[:longitude].to_f, latitude: params[:latitude].to_f }}
         render json: response 
       else
-        render json: {found: "none", photo: ActiveModelSerializers::SerializableResource.new(photo)}
+          photo_info = ActiveModelSerializers::SerializableResource.new(photo)
+          
+        render json: {found: "none", photo: photo_info, location: {longitude: params[:longitude].to_f, latitude: params[:latitude].to_f }}
       end
 
     end

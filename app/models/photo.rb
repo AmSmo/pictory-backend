@@ -16,8 +16,8 @@ class Photo < ApplicationRecord
     has_one :location, through: :location_photo
     has_many :comments, dependent: :destroy
     has_many :commenters, through: :comments, source: :user
-    has_one :user_photo, dependent: :destroy
-    has_one :poster, through: :user_photo, source: :user
+    has_many :user_photos, dependent: :destroy
+    has_many :posters, through: :user_photos, source: :user
     has_one_attached :photograph
 
     def photoproof

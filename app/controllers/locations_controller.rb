@@ -9,11 +9,14 @@ class LocationsController < ApplicationController
             page = params[:page]
         end
 
-        render json: {places: ActiveModelSerializers::SerializableResource.new(locations), page_info: {current_page: params[:page], total_pages: page_count}
+        render json: {places: ActiveModelSerializers::SerializableResource.new(locations), page_info: {current_page: params[:page], total_pages: page_count}}
     end
 
     def create
-        newLocation = Location.create(location_params)
+        latitude = params[:latitude].to_f
+        longitude = params[:longitude].to_f
+        byebug
+        newLocation = Location.create(latitude: latitude, longitude: longitude)
         LocationPhoto.create(photo_id: params[:photo_id].to_i, location: newLocation)
         if newLocation.valid?
             render json: newLocation
