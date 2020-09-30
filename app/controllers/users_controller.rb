@@ -8,10 +8,10 @@ class UsersController < ApplicationController
     def create
         login = User.find_by(username: params[:username])
         if login.present?
-            render json: {user: login.id, message: "Welcome back #{login.username}"}
+            render json: {username: login.username, user_id: login.id, message: "Welcome back #{login.username}"}
         else
             login = User.create(username: params[:username])
-            render json: {user: login.id, message: "Welcome to the Pictory Community #{login.username}"}
+            render json: {username: login.username, user_id: login.id, message: "Welcome to the Pictory Community #{login.username}"}
         end
     end
 

@@ -16,7 +16,8 @@ class LocationsController < ApplicationController
         latitude = params[:latitude].to_f
         longitude = params[:longitude].to_f
         byebug
-        newLocation = Location.create(latitude: latitude, longitude: longitude)
+        name = params[:name]
+        newLocation = Location.create(name: name, latitude: latitude, longitude: longitude)
         LocationPhoto.create(photo_id: params[:photo_id].to_i, location: newLocation)
         if newLocation.valid?
             render json: newLocation

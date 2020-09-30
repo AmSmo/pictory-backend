@@ -11,6 +11,12 @@ class PhotosController < ApplicationController
         render json: photo
     end
 
+    def myphotos
+      user = User.find_by(id: params[:user_id])
+      photos = user.photos
+      render json: photos
+    end
+
     def update
 
       photo = Photo.find_by(id: params[:id])

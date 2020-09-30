@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :photos do
     get :photograph, on: :member  
   end
+  post '/myphotos', to: "photos#myphotos"
   resources :locations
   resources :users
   get '/locations/search', to: 'locations#search'
