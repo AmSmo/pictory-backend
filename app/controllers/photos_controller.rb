@@ -17,6 +17,11 @@ class PhotosController < ApplicationController
       render json: photos
     end
 
+    def destroy
+      current_photo = Photo.find_by(id: params[:id])
+      current_photo.destroy
+    end
+
     def update
 
       photo = Photo.find_by(id: params[:id])
