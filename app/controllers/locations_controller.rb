@@ -12,6 +12,11 @@ class LocationsController < ApplicationController
         render json: {places: ActiveModelSerializers::SerializableResource.new(locations), page_info: {current_page: params[:page], total_pages: page_count}}
     end
 
+    def show
+        location = Location.find_by(id: params[:id])
+        render json: location
+    end
+
     def create
         latitude = params[:latitude].to_f
         longitude = params[:longitude].to_f
@@ -26,6 +31,12 @@ class LocationsController < ApplicationController
         end
     end
 
+    def search
+        latitude = params[:latitude].to_f
+        longitude = params[:longitude].to_f
+        results = Location.grander_search(longitude, latitude)
+        render json: results
+    end
     private
 
     def location_params

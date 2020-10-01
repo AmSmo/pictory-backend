@@ -23,4 +23,13 @@ class Location < ApplicationRecord
             (longitude + 0.0015),
         ).limit(12)
     end
+
+    def self.grander_search(longitude,latitude)
+        Location.where('latitude >= ? AND latitude <= ? AND longitude >= ? AND longitude <= ?', 
+            (latitude - 0.002), 
+            (latitude + 0.002),
+            (longitude - 0.002), 
+            (longitude + 0.002),
+        ).limit(8)
+    end
 end
