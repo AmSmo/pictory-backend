@@ -20,7 +20,7 @@ class LocationsController < ApplicationController
     def create
         latitude = params[:latitude].to_f
         longitude = params[:longitude].to_f
-        byebug
+        
         name = params[:name]
         newLocation = Location.create(name: name, latitude: latitude, longitude: longitude)
         LocationPhoto.create(photo_id: params[:photo_id].to_i, location: newLocation)
