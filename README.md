@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend for a project where you can take a photo and add a location to it. 
 
-Things you may want to cover:
+You can also search for photos by location.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Built in Rails and integrates the New York Public libraries historical photos of New York.
